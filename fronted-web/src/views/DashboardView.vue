@@ -6,7 +6,7 @@ const authStore = useAuthStore()
 
 const stats = ref([
   {
-    name: 'Tổng sản phẩm',
+    name: 'Tổng sản phẩmmmmmmm',
     value: '0',
     icon: 'cube',
     color: 'blue',
