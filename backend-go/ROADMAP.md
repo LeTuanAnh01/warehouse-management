@@ -42,12 +42,12 @@ Chúng ta sẽ xây dựng Backend API theo **Clean Architecture** với **10 ph
 - Login/Logout
 - JWT generation & validation
 - Refresh token
-- Get current user
+- Get current userdd
 
 **Files**:
 - Auth handler, usecase, repository
 - JWT middleware
-- Password hashing utils
+- Password hashing utilsddd
 
 **Outcome**: Authentication hoạt động đầy đủ
 

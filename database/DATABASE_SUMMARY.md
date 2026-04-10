@@ -183,7 +183,7 @@ cd ../backend-go
 
 ### Option 2: Build Frontend (Có thể làm song song)
 ```bash
-cd ../fronted-web
+cd ../frontend-web
 # Setup Vue.js project
 # Create components
 # API integration

@@ -69,7 +69,12 @@ func NewRouter(
 				users.DELETE("/:id", userHandler.DeleteUser)
 				users.GET("/:id/warehouses", userHandler.GetUserWarehouses)
 				users.POST("/assign-warehouse", userHandler.AssignWarehouse)
-				users.DELETE("/:user_id/warehouses/:warehouse_id", userHandler.RemoveWarehouse)
+			}
+
+			// Use separate group to avoid wildcard conflict with /users/:id
+			userWarehouses := protected.Group("/user-warehouses")
+			{
+				userWarehouses.DELETE("/:user_id/warehouses/:warehouse_id", userHandler.RemoveWarehouse)
 			}
 		}
 	}

@@ -1,0 +1,183 @@
+2026/04/04 09:31:41 🚀 Starting PRODUCTION Server...
+2026/04/04 09:31:41 � Authentication ENABLED - All endpoints require login
+2026/04/04 09:31:41 
+2026/04/04 09:31:41 🔗 Connecting to database with DSN: host=localhost port=5432 user=anhlt dbname=warehouse_db sslmode=disable
+2026/04/04 09:31:41 ✅ Database connected successfully
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /health                   --> warehouse-api/internal/delivery/http/handler.HealthCheck (4 handlers)
+[GIN-debug] POST   /api/v1/auth/login        --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).Login-fm (4 handlers)
+[GIN-debug] POST   /api/v1/auth/register     --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).Register-fm (4 handlers)
+[GIN-debug] POST   /api/v1/auth/refresh      --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).RefreshToken-fm (4 handlers)
+[GIN-debug] POST   /api/v1/auth/logout       --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).Logout-fm (5 handlers)
+[GIN-debug] POST   /api/v1/auth/change-password --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).ChangePassword-fm (5 handlers)
+[GIN-debug] GET    /api/v1/products          --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).GetProducts-fm (5 handlers)
+[GIN-debug] GET    /api/v1/products/:id      --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).GetProductByID-fm (5 handlers)
+[GIN-debug] POST   /api/v1/products          --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).CreateProduct-fm (5 handlers)
+[GIN-debug] PUT    /api/v1/products/:id      --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).UpdateProduct-fm (5 handlers)
+[GIN-debug] DELETE /api/v1/products/:id      --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).DeleteProduct-fm (5 handlers)
+[GIN-debug] GET    /api/v1/products/:id/inventory --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).GetInventoryByProduct-fm (5 handlers)
+[GIN-debug] GET    /api/v1/users             --> warehouse-api/internal/delivery/http/handler.(*UserHandler).GetAllUsers-fm (5 handlers)
+[GIN-debug] GET    /api/v1/users/:id         --> warehouse-api/internal/delivery/http/handler.(*UserHandler).GetUserByID-fm (5 handlers)
+[GIN-debug] POST   /api/v1/users             --> warehouse-api/internal/delivery/http/handler.(*UserHandler).CreateUser-fm (5 handlers)
+[GIN-debug] PUT    /api/v1/users/:id         --> warehouse-api/internal/delivery/http/handler.(*UserHandler).UpdateUser-fm (5 handlers)
+[GIN-debug] DELETE /api/v1/users/:id         --> warehouse-api/internal/delivery/http/handler.(*UserHandler).DeleteUser-fm (5 handlers)
+[GIN-debug] GET    /api/v1/users/:id/warehouses --> warehouse-api/internal/delivery/http/handler.(*UserHandler).GetUserWarehouses-fm (5 handlers)
+[GIN-debug] POST   /api/v1/users/assign-warehouse --> warehouse-api/internal/delivery/http/handler.(*UserHandler).AssignWarehouse-fm (5 handlers)
+[GIN-debug] DELETE /api/v1/user-warehouses/:user_id/warehouses/:warehouse_id --> warehouse-api/internal/delivery/http/handler.(*UserHandler).RemoveWarehouse-fm (5 handlers)
+2026/04/04 09:31:41 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026/04/04 09:31:41 🚀 PRODUCTION Server running on http://localhost:8080
+2026/04/04 09:31:41 📊 Database: anhlt@localhost:5432/warehouse_db
+2026/04/04 09:31:41 🌍 Environment: development
+2026/04/04 09:31:41 
+2026/04/04 09:31:41 📝 Available Endpoints:
+2026/04/04 09:31:41    Public (No Auth):
+2026/04/04 09:31:41      - Health Check:  GET  http://localhost:8080/health
+2026/04/04 09:31:41      - Login:         POST http://localhost:8080/api/v1/auth/login
+2026/04/04 09:31:41      - Register:      POST http://localhost:8080/api/v1/auth/register
+2026/04/04 09:31:41      - Refresh Token: POST http://localhost:8080/api/v1/auth/refresh
+2026/04/04 09:31:41 
+2026/04/04 09:31:41    Protected (Auth Required):
+2026/04/04 09:31:41      - Products CRUD: /api/v1/products
+2026/04/04 09:31:41      - User Mgmt:     /api/v1/users (Admin only)
+2026/04/04 09:31:41      - Logout:        POST http://localhost:8080/api/v1/auth/logout
+2026/04/04 09:31:41      - Change Pass:   POST http://localhost:8080/api/v1/auth/change-password
+2026/04/04 09:31:41 
+2026/04/04 09:31:41 🔒 Protected endpoints require: Authorization: Bearer <token>
+2026/04/04 09:31:41 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026/04/04 09:31:41 
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on localhost:8080
+[GIN] 2026/04/04 - 09:31:41 | 200 |        63.5µs |       127.0.0.1 | GET      "/health"
+[GIN] 2026/04/10 - 12:36:26 | 204 |    1.590042ms |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:36:26 | 401 |    3.759042ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:36:28 | 204 |       5.625µs |       127.0.0.1 | OPTIONS  "/api/v1/auth/login"
+
+2026/04/10 12:36:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
+[0m[33m[5.121ms] [34;1m[rows:1][0m SELECT * FROM "roles" WHERE "roles"."id" = 1
+
+2026/04/10 12:36:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
+[0m[33m[58.882ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE username = 'admin' ORDER BY "users"."id" LIMIT 1
+
+2026/04/10 12:36:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:71
+[0m[33m[103.393ms] [34;1m[rows:1][0m UPDATE "users" SET "last_login"=NOW(),"updated_at"='2026-04-10 12:36:28.26' WHERE id = 1
+[GIN] 2026/04/10 - 12:36:28 | 200 |  232.248834ms |       127.0.0.1 | POST     "/api/v1/auth/login"
+
+2026/04/10 12:36:31 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[6.798ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:36:31 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[1.513ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:36:31 | 200 |    9.015875ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:36:35 | 204 |      29.792µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:36:35 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[2.155ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:36:35 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.338ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:36:35 | 200 |    2.913834ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:36:36 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.700ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:36:36 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[1.303ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:36:36 | 200 |    3.462541ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:36:38 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.380ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:36:38 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.208ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:36:38 | 200 |     1.81175ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:36:39 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.593ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:36:39 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.349ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:36:39 | 200 |    2.359708ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:36:43 | 204 |           7µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:36:43 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.488ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:36:43 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.230ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:36:43 | 200 |     2.16175ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:36:54 | 204 |       8.625µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:36:54 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.472ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:36:54 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.284ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:36:54 | 200 |    2.071292ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:37:01 | 204 |       7.583µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:37:01 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.594ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:37:01 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.432ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:37:01 | 200 |    2.447042ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:37:09 | 204 |        25.5µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:37:09 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.407ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:37:09 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.208ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:37:09 | 200 |    1.913125ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:37:28 | 204 |       5.208µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:37:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.910ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:37:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.562ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:37:28 | 200 |    2.855583ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:57:44 | 204 |     551.417µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:57:44 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[8.827ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:57:44 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[2.076ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:57:44 | 200 |   11.672709ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 12:58:53 | 204 |      20.875µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 12:58:53 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.858ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 12:58:53 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.201ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 12:58:53 | 200 |    2.493666ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 13:00:04 | 204 |      38.583µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 13:00:04 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.881ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 13:00:04 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.270ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 13:00:04 | 200 |    2.531042ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 13:01:13 | 204 |      55.208µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 13:01:13 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[1.772ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 13:01:13 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[0.316ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 13:01:13 | 200 |     2.98325ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+[GIN] 2026/04/10 - 13:08:23 | 204 |      47.667µs |       127.0.0.1 | OPTIONS  "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"
+
+2026/04/10 13:08:23 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:45
+[0m[33m[7.630ms] [34;1m[rows:1][0m SELECT count(*) FROM "products"
+
+2026/04/10 13:08:23 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/product_repository_impl.go:53
+[0m[33m[1.958ms] [34;1m[rows:11][0m SELECT * FROM "products" ORDER BY created_at DESC LIMIT 20
+[GIN] 2026/04/10 - 13:08:23 | 200 |    9.934917ms |       127.0.0.1 | GET      "/api/v1/products?page%5Bpage%5D=1&page%5Blimit%5D=10&page_size=20"

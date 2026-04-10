@@ -68,7 +68,7 @@ src/
 ## 🏃 Run Development Server
 
 ```bash
-cd "/Users/anhlt/Documents/LTA/Quản lý kho/fronted-web"
+cd "/Users/anhlt/Documents/LTA/Quản lý kho/frontend-web"
 npm run dev
 ```
 
