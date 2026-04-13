@@ -60,3 +60,27 @@ export const productService = {
     return response.data
   },
 }
+
+export const userService = {
+  async getUsers(page = 1, pageSize = 20) {
+    const response = await apiClient.get('/users', {
+      params: { page, page_size: pageSize }
+    })
+    return response.data
+  },
+
+  async getUser(id) {
+    const response = await apiClient.get(`/users/${id}`)
+    return response.data
+  },
+
+  async updateUser(id, userData) {
+    const response = await apiClient.put(`/users/${id}`, userData)
+    return response.data.data  // ← lấy .data.data vì backend wrap { success, message, data: {...} }
+  },
+
+  async deleteUser(id) {
+    const response = await apiClient.delete(`/users/${id}`)
+    return response.data
+  },
+}

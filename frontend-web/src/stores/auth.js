@@ -57,6 +57,11 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('user')
   }
 
+  function updateUser(userData) {
+    user.value = { ...user.value, ...userData }
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
   async function refreshAccessToken() {
     try {
       const response = await authService.refreshToken(refreshToken.value)
@@ -88,5 +93,6 @@ export const useAuthStore = defineStore('auth', () => {
     register,
     logout,
     refreshAccessToken,
+    updateUser,
   }
 })

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { userService, authService } from '@/services/index' // ← sửa import
 
 const authStore = useAuthStore()
 
@@ -44,11 +45,19 @@ const handleUpdateProfile = async () => {
   loading.value = true
 
   try {
-    // TODO: Call API to update profile
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const data = await userService.updateUser(user.value.id, {  // ← dùng userService
+      full_name: profileForm.full_name,
+      email: profileForm.email,
+      phone: profileForm.phone,
+    })
+
+    if (data) {
+      authStore.updateUser(data)
+    }
+
     success.value = 'Cập nhật thông tin thành công'
   } catch (err) {
-    error.value = 'Cập nhật thất bại. Vui lòng thử lại.'
+    error.value = err.response?.message || 'Cập nhật thất bại. Vui lòng thử lại.'
   } finally {
     loading.value = false
   }
@@ -76,21 +85,17 @@ const handleChangePassword = async () => {
   loading.value = true
 
   try {
-    const result = await authStore.changePassword(
-      passwordForm.currentPassword,
-      passwordForm.newPassword
-    )
+    await authService.changePassword({
+      old_password: passwordForm.currentPassword,  // ← sửa current_password → old_password
+      new_password: passwordForm.newPassword,
+    })
 
-    if (result.success) {
-      success.value = 'Đổi mật khẩu thành công'
-      passwordForm.currentPassword = ''
-      passwordForm.newPassword = ''
-      passwordForm.confirmPassword = ''
-    } else {
-      error.value = result.error || 'Đổi mật khẩu thất bại'
-    }
+    success.value = 'Đổi mật khẩu thành công'
+    passwordForm.currentPassword = ''
+    passwordForm.newPassword = ''
+    passwordForm.confirmPassword = ''
   } catch (err) {
-    error.value = 'Đã xảy ra lỗi. Vui lòng thử lại.'
+    error.value = err.response?.data?.message || 'Đổi mật khẩu thất bại'
   } finally {
     loading.value = false
   }

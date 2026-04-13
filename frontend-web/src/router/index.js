@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/RegisterView.vue'),
+      component: () => import('@/views/User/RegisterView.vue'),
       meta: { requiresGuest: true },
     },
     {
@@ -29,22 +29,22 @@ const router = createRouter({
         {
           path: 'products',
           name: 'products',
-          component: () => import('@/views/ProductsView.vue'),
+          component: () => import('@/views/Product/ProductsView.vue'),
         },
         {
           path: 'products/create',
           name: 'product-create',
-          component: () => import('@/views/ProductFormView.vue'),
+          component: () => import('@/views/Product/ProductFormView.vue'),
         },
         {
           path: 'products/:id/edit',
           name: 'product-edit',
-          component: () => import('@/views/ProductFormView.vue'),
+          component: () => import('@/views/Product/ProductFormView.vue'),
         },
         {
           path: 'profile',
           name: 'profile',
-          component: () => import('@/views/ProfileView.vue'),
+          component: () => import('@/views/User/ProfileView.vue'),
         },
       ],
     },

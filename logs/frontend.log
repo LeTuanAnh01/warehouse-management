@@ -3,7 +3,9 @@
 > vite
 
 
-  VITE v7.3.1  ready in 394 ms
+  VITE v7.3.1  ready in 209 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
+11:40:42 AM [vite] (client) hmr update /src/views/User/ProfileView.vue, /src/style.css
+11:40:49 AM [vite] (client) hmr update /src/style.css

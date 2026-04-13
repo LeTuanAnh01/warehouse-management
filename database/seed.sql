@@ -15,13 +15,9 @@ INSERT INTO roles (name, description) VALUES
 -- 2. Insert Users
 -- Password: "123456" hashed with bcrypt
 -- ============================================
+-- Password mặc định: Admin@123
 INSERT INTO users (username, email, password_hash, full_name, phone, role_id, is_active) VALUES
-('admin', 'admin@warehouse.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Administrator', '0901234567', 1, true),
-('manager1', 'manager1@warehouse.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Nguyễn Văn A', '0901234568', 2, true),
-('manager2', 'manager2@warehouse.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Trần Thị B', '0901234569', 2, true),
-('staff1', 'staff1@warehouse.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Lê Văn C', '0901234570', 3, true),
-('staff2', 'staff2@warehouse.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Phạm Thị D', '0901234571', 3, true),
-('viewer1', 'viewer1@warehouse.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Hoàng Văn E', '0901234572', 4, true);
+('admin', 'admin@warehouse.com', 'HASH_VỪA_GENERATE', 'Administrator', '0901234567', 1, true),
 
 -- ============================================
 -- 3. Insert Warehouses
