@@ -8,7 +8,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-BE_DIR="$ROOT_DIR/backend-go"
+BE_DIR="$ROOT_DIR/backend-nodejs"
 FE_DIR="$ROOT_DIR/frontend-web"
 
 echo -e "${BLUE}========================================${NC}"
@@ -19,78 +19,95 @@ mkdir -p "$ROOT_DIR/logs"
 
 # Kill process cũ
 echo -e "${YELLOW}⏹  Dừng process cũ nếu có...${NC}"
-pkill -f "go run ./cmd/api/main.go" 2>/dev/null
+pkill -f "node dist/main" 2>/dev/null
 pkill -f "vite" 2>/dev/null
 sleep 1
 
-# ─── Khởi động PostgreSQL ─────────────────────
-echo -e "${YELLOW}🐘 Kiểm tra PostgreSQL...${NC}"
-
-PG_DATA="/opt/homebrew/var/postgresql@16"
-PG_LOG="/opt/homebrew/var/log/postgresql@16.log"
-
-if pg_isready -q 2>/dev/null; then
-    echo -e "${GREEN}✅ PostgreSQL đã đang chạy${NC}"
-else
-    echo -e "${YELLOW}   Khởi động PostgreSQL...${NC}"
-
-    # Xóa lock file cũ nếu có
-    rm -f "$PG_DATA/postmaster.pid" 2>/dev/null
-
-    # Khởi động bằng pg_ctl
-    pg_ctl -D "$PG_DATA" -l "$PG_LOG" start 2>/dev/null
-
-    echo -e "${YELLOW}⏳ Chờ PostgreSQL khởi động...${NC}"
-    for i in {1..20}; do
-        if pg_isready -q 2>/dev/null; then
-            echo -e "${GREEN}✅ PostgreSQL đang chạy${NC}"
-            break
-        fi
-        if [ $i -eq 20 ]; then
-            echo -e "${RED}❌ PostgreSQL không khởi động được!${NC}"
-            echo -e "${YELLOW}   Xem log: tail -20 $PG_LOG${NC}"
-            exit 1
-        fi
-        sleep 1
-    done
+# ─── Kiểm tra Docker ──────────────────────────
+if ! docker info > /dev/null 2>&1; then
+    echo -e "${RED}❌ Docker chưa chạy! Hãy mở Docker Desktop rồi thử lại.${NC}"
+    exit 1
 fi
 
-# ─── Tạo database nếu chưa có ─────────────────
-echo -e "${YELLOW}🗄  Kiểm tra database...${NC}"
-DB_NAME=$(grep DB_NAME "$BE_DIR/.env" 2>/dev/null | cut -d '=' -f2 || echo "warehouse_db")
+# ─── Khởi động PostgreSQL bằng Docker ─────────
+echo -e "${YELLOW}🐘 Kiểm tra PostgreSQL (Docker)...${NC}"
 
-if ! psql -lqt 2>/dev/null | cut -d \| -f 1 | grep -qw "$DB_NAME"; then
-    echo -e "${YELLOW}📦 Tạo database $DB_NAME...${NC}"
-    createdb "$DB_NAME"
-    psql -d "$DB_NAME" -f "$ROOT_DIR/database/schema.sql"
-    psql -d "$DB_NAME" -f "$ROOT_DIR/database/seed.sql"
+PG_CONTAINER="warehouse_db_local"
+PG_USER="admin"
+PG_PASSWORD="123456"
+PG_DB="warehouse"
+PG_PORT="5432"
+
+if docker ps --format '{{.Names}}' | grep -q "^${PG_CONTAINER}$"; then
+    echo -e "${GREEN}✅ PostgreSQL container đã đang chạy${NC}"
+elif docker ps -a --format '{{.Names}}' | grep -q "^${PG_CONTAINER}$"; then
+    echo -e "${YELLOW}   Khởi động lại container PostgreSQL...${NC}"
+    docker start "$PG_CONTAINER" > /dev/null
+else
+    echo -e "${YELLOW}   Tạo container PostgreSQL mới...${NC}"
+    docker run -d \
+        --name "$PG_CONTAINER" \
+        -e POSTGRES_USER="$PG_USER" \
+        -e POSTGRES_PASSWORD="$PG_PASSWORD" \
+        -e POSTGRES_DB="$PG_DB" \
+        -p ${PG_PORT}:5432 \
+        -v warehouse_pg_data:/var/lib/postgresql/data \
+        postgres:16-alpine > /dev/null
+fi
+
+echo -e "${YELLOW}⏳ Chờ PostgreSQL khởi động...${NC}"
+for i in {1..30}; do
+    if docker exec "$PG_CONTAINER" pg_isready -U "$PG_USER" -d "$PG_DB" -q 2>/dev/null; then
+        echo -e "${GREEN}✅ PostgreSQL đang chạy${NC}"
+        break
+    fi
+    if [ $i -eq 30 ]; then
+        echo -e "${RED}❌ PostgreSQL không khởi động được!${NC}"
+        docker logs --tail 20 "$PG_CONTAINER"
+        exit 1
+    fi
+    sleep 1
+done
+
+# ─── Nạp schema + seed nếu database mới ───────
+TABLE_COUNT=$(docker exec "$PG_CONTAINER" psql -U "$PG_USER" -d "$PG_DB" -tAc "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='public';" 2>/dev/null | tr -d '[:space:]')
+if [ "$TABLE_COUNT" = "0" ] || [ -z "$TABLE_COUNT" ]; then
+    echo -e "${YELLOW}📦 Nạp schema và seed data...${NC}"
+    docker exec -i "$PG_CONTAINER" psql -U "$PG_USER" -d "$PG_DB" < "$ROOT_DIR/database/schema.sql"
+    docker exec -i "$PG_CONTAINER" psql -U "$PG_USER" -d "$PG_DB" < "$ROOT_DIR/database/seed.sql"
     echo -e "${GREEN}✅ Database đã tạo xong${NC}"
 else
-    echo -e "${GREEN}✅ Database $DB_NAME đã tồn tại${NC}"
+    echo -e "${GREEN}✅ Database đã có sẵn ($TABLE_COUNT tables)${NC}"
 fi
 
 # ─── Tạo .env nếu chưa có ─────────────────────
 if [ ! -f "$BE_DIR/.env" ]; then
     echo -e "${YELLOW}📝 Tạo file .env cho backend...${NC}"
-    cat > "$BE_DIR/.env" << 'EOF'
+    cat > "$BE_DIR/.env" << EOF
+NODE_ENV=development
+PORT=3000
 DB_HOST=localhost
-DB_PORT=5432
-DB_USER=anhlt
-DB_PASSWORD=
-DB_NAME=warehouse_db
-DB_SSLMODE=disable
+DB_PORT=${PG_PORT}
+DB_USERNAME=${PG_USER}
+DB_PASSWORD=${PG_PASSWORD}
+DB_NAME=${PG_DB}
 JWT_SECRET=your-secret-key-local
-ENV=development
-PORT=8080
-HOST=0.0.0.0
+JWT_EXPIRES_IN=7d
 EOF
     echo -e "${GREEN}✅ Tạo .env xong${NC}"
 fi
 
 # ─── Khởi động Backend ────────────────────────
-echo -e "${YELLOW}🚀 Khởi động Backend (port 8080)...${NC}"
+echo -e "${YELLOW}🚀 Khởi động Backend Node.js (port 3000)...${NC}"
 cd "$BE_DIR"
-go run ./cmd/api/main.go > "$ROOT_DIR/logs/backend.log" 2>&1 &
+
+# Build nếu chưa có dist
+if [ ! -d "dist" ]; then
+    echo -e "${YELLOW}🔨 Build backend lần đầu...${NC}"
+    npm run build 2>&1
+fi
+
+node dist/main > "$ROOT_DIR/logs/backend.log" 2>&1 &
 BE_PID=$!
 echo "$BE_PID" > "$ROOT_DIR/logs/backend.pid"
 echo -e "${GREEN}✅ Backend PID: $BE_PID${NC}"
@@ -98,7 +115,7 @@ echo -e "${GREEN}✅ Backend PID: $BE_PID${NC}"
 # Chờ backend ready
 echo -e "${YELLOW}⏳ Chờ Backend khởi động...${NC}"
 for i in {1..20}; do
-    if curl -s http://localhost:8080/health > /dev/null 2>&1; then
+    if curl -s http://localhost:3000 > /dev/null 2>&1; then
         echo -e "${GREEN}✅ Backend đã sẵn sàng!${NC}"
         break
     fi
@@ -111,6 +128,10 @@ done
 # ─── Khởi động Frontend ───────────────────────
 echo -e "${YELLOW}🌐 Khởi động Frontend...${NC}"
 cd "$FE_DIR"
+if [ ! -d "node_modules" ]; then
+    echo -e "${YELLOW}📦 Cài dependencies frontend...${NC}"
+    npm install 2>&1
+fi
 npm run dev > "$ROOT_DIR/logs/frontend.log" 2>&1 &
 FE_PID=$!
 echo "$FE_PID" > "$ROOT_DIR/logs/frontend.pid"
@@ -120,13 +141,13 @@ echo ""
 echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}   ✅ Ứng dụng đã khởi động xong!      ${NC}"
 echo -e "${GREEN}========================================${NC}"
-echo -e "  🐘 PostgreSQL: ${BLUE}$PG_VERSION${NC}"
-echo -e "  🔧 Backend:    ${BLUE}http://localhost:8080${NC}"
+echo -e "  🐘 PostgreSQL: ${BLUE}Docker container ($PG_CONTAINER)${NC}"
+echo -e "  🔧 Backend:    ${BLUE}http://localhost:3000${NC}"
 echo -e "  🌐 Frontend:   ${BLUE}http://localhost:5173${NC}"
 echo -e "  📋 Logs:       ${BLUE}$ROOT_DIR/logs/${NC}"
 echo ""
 echo -e "${YELLOW}Nhấn Ctrl+C để dừng tất cả${NC}"
 
-trap "echo -e '\n${RED}⏹ Đang dừng tất cả...${NC}'; kill $BE_PID $FE_PID 2>/dev/null; exit 0" SIGINT SIGTERM
+trap "echo -e '\n${RED}⏹ Đang dừng tất cả...${NC}'; kill $BE_PID $FE_PID 2>/dev/null; docker stop $PG_CONTAINER > /dev/null 2>&1; exit 0" SIGINT SIGTERM
 
 tail -f "$ROOT_DIR/logs/backend.log" "$ROOT_DIR/logs/frontend.log"

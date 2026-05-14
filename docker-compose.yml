@@ -51,6 +51,35 @@ services:
       timeout: 10s
       retries: 3
 
+  backend-nodejs:
+    build:
+      context: ./backend-nodejs
+      dockerfile: Dockerfile
+    container_name: warehouse_api_nodejs
+    restart: always
+    ports:
+      - "3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: admin
+      DB_PASSWORD: 123456
+      DB_NAME: warehouse
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRES_IN: 7d
+    networks:
+      - warehouse-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   frontend:
     build:
       context: ./frontend-web

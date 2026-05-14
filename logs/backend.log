@@ -1,98 +1,51 @@
-2026/04/13 11:39:12 🚀 Starting PRODUCTION Server...
-2026/04/13 11:39:12 � Authentication ENABLED - All endpoints require login
-2026/04/13 11:39:12 
-2026/04/13 11:39:12 🔗 Connecting to database with DSN: host=localhost port=5432 user=anhlt dbname=warehouse_db sslmode=disable
-2026/04/13 11:39:12 ✅ Database connected successfully
-[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
- - using env:	export GIN_MODE=release
- - using code:	gin.SetMode(gin.ReleaseMode)
-
-[GIN-debug] GET    /health                   --> warehouse-api/internal/delivery/http/handler.HealthCheck (4 handlers)
-[GIN-debug] POST   /api/v1/auth/login        --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).Login-fm (4 handlers)
-[GIN-debug] POST   /api/v1/auth/register     --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).Register-fm (4 handlers)
-[GIN-debug] POST   /api/v1/auth/refresh      --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).RefreshToken-fm (4 handlers)
-[GIN-debug] POST   /api/v1/auth/logout       --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).Logout-fm (5 handlers)
-[GIN-debug] POST   /api/v1/auth/change-password --> warehouse-api/internal/delivery/http/handler.(*AuthHandler).ChangePassword-fm (5 handlers)
-[GIN-debug] GET    /api/v1/products          --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).GetProducts-fm (5 handlers)
-[GIN-debug] GET    /api/v1/products/:id      --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).GetProductByID-fm (5 handlers)
-[GIN-debug] POST   /api/v1/products          --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).CreateProduct-fm (5 handlers)
-[GIN-debug] PUT    /api/v1/products/:id      --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).UpdateProduct-fm (5 handlers)
-[GIN-debug] DELETE /api/v1/products/:id      --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).DeleteProduct-fm (5 handlers)
-[GIN-debug] GET    /api/v1/products/:id/inventory --> warehouse-api/internal/delivery/http/handler.(*ProductHandler).GetInventoryByProduct-fm (5 handlers)
-[GIN-debug] GET    /api/v1/users             --> warehouse-api/internal/delivery/http/handler.(*UserHandler).GetAllUsers-fm (5 handlers)
-[GIN-debug] GET    /api/v1/users/:id         --> warehouse-api/internal/delivery/http/handler.(*UserHandler).GetUserByID-fm (5 handlers)
-[GIN-debug] POST   /api/v1/users             --> warehouse-api/internal/delivery/http/handler.(*UserHandler).CreateUser-fm (5 handlers)
-[GIN-debug] PUT    /api/v1/users/:id         --> warehouse-api/internal/delivery/http/handler.(*UserHandler).UpdateUser-fm (5 handlers)
-[GIN-debug] DELETE /api/v1/users/:id         --> warehouse-api/internal/delivery/http/handler.(*UserHandler).DeleteUser-fm (5 handlers)
-[GIN-debug] GET    /api/v1/users/:id/warehouses --> warehouse-api/internal/delivery/http/handler.(*UserHandler).GetUserWarehouses-fm (5 handlers)
-[GIN-debug] POST   /api/v1/users/assign-warehouse --> warehouse-api/internal/delivery/http/handler.(*UserHandler).AssignWarehouse-fm (5 handlers)
-[GIN-debug] DELETE /api/v1/user-warehouses/:user_id/warehouses/:warehouse_id --> warehouse-api/internal/delivery/http/handler.(*UserHandler).RemoveWarehouse-fm (5 handlers)
-2026/04/13 11:39:12 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-2026/04/13 11:39:12 🚀 PRODUCTION Server running on http://localhost:8080
-2026/04/13 11:39:12 📊 Database: anhlt@localhost:5432/warehouse_db
-2026/04/13 11:39:12 🌍 Environment: development
-2026/04/13 11:39:12 
-2026/04/13 11:39:12 📝 Available Endpoints:
-2026/04/13 11:39:12    Public (No Auth):
-2026/04/13 11:39:12      - Health Check:  GET  http://localhost:8080/health
-2026/04/13 11:39:12      - Login:         POST http://localhost:8080/api/v1/auth/login
-2026/04/13 11:39:12      - Register:      POST http://localhost:8080/api/v1/auth/register
-2026/04/13 11:39:12      - Refresh Token: POST http://localhost:8080/api/v1/auth/refresh
-2026/04/13 11:39:12 
-2026/04/13 11:39:12    Protected (Auth Required):
-2026/04/13 11:39:12      - Products CRUD: /api/v1/products
-2026/04/13 11:39:12      - User Mgmt:     /api/v1/users (Admin only)
-2026/04/13 11:39:12      - Logout:        POST http://localhost:8080/api/v1/auth/logout
-2026/04/13 11:39:12      - Change Pass:   POST http://localhost:8080/api/v1/auth/change-password
-2026/04/13 11:39:12 
-2026/04/13 11:39:12 🔒 Protected endpoints require: Authorization: Bearer <token>
-2026/04/13 11:39:12 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-2026/04/13 11:39:12 
-[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
-Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
-[GIN-debug] Listening and serving HTTP on localhost:8080
-[GIN] 2026/04/13 - 11:39:13 | 200 |     228.583µs |       127.0.0.1 | GET      "/health"
-[GIN] 2026/04/13 - 11:41:08 | 204 |    2.363292ms |       127.0.0.1 | OPTIONS  "/api/v1/auth/change-password"
-
-2026/04/13 11:41:08 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:24
-[0m[33m[1.047ms] [34;1m[rows:1][0m SELECT * FROM "roles" WHERE "roles"."id" = 1
-
-2026/04/13 11:41:08 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:24
-[0m[33m[25.201ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" LIMIT 1
-
-2026/04/13 11:41:08 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:62
-[0m[33m[0.483ms] [34;1m[rows:0][0m INSERT INTO "roles" ("name","description","created_at","updated_at","id") VALUES ('ADMIN','Quản trị viên hệ thống - Full quyền','2026-04-13 10:57:49.86','2026-04-13 10:57:49.86',1) ON CONFLICT DO NOTHING RETURNING "id"
-
-2026/04/13 11:41:08 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:62
-[0m[33m[3.370ms] [34;1m[rows:1][0m UPDATE "users" SET "username"='admin',"email"='admin@warehouse.com',"password_hash"='$2a$10$jVEyR9Y89etyFxRYh77Evegxh6t3dnPTbxmMlVf91CAIyrDL90iBi',"full_name"='Administrator',"phone"='0966277540',"role_id"=1,"is_active"=true,"last_login"='2026-04-13 11:00:40.547',"created_at"='2026-04-13 10:57:49.86',"updated_at"='2026-04-13 11:41:08.494' WHERE "id" = 1
-[GIN] 2026/04/13 - 11:41:08 | 200 |  145.841292ms |       127.0.0.1 | POST     "/api/v1/auth/change-password"
-[GIN] 2026/04/13 - 11:41:14 | 204 |      13.375µs |       127.0.0.1 | OPTIONS  "/api/v1/auth/login"
-
-2026/04/13 11:41:14 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
-[0m[33m[0.741ms] [34;1m[rows:1][0m SELECT * FROM "roles" WHERE "roles"."id" = 1
-
-2026/04/13 11:41:14 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
-[0m[33m[6.782ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE username = 'admin' ORDER BY "users"."id" LIMIT 1
-
-2026/04/13 11:41:14 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:71
-[0m[33m[1.260ms] [34;1m[rows:1][0m UPDATE "users" SET "last_login"=NOW(),"updated_at"='2026-04-13 11:41:14.123' WHERE id = 1
-[GIN] 2026/04/13 - 11:41:14 | 200 |      81.095ms |       127.0.0.1 | POST     "/api/v1/auth/login"
-[GIN] 2026/04/13 - 11:41:23 | 204 |      10.084µs |       127.0.0.1 | OPTIONS  "/api/v1/auth/login"
-
-2026/04/13 11:41:23 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
-[0m[33m[0.244ms] [34;1m[rows:1][0m SELECT * FROM "roles" WHERE "roles"."id" = 1
-
-2026/04/13 11:41:23 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
-[0m[33m[2.310ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE username = 'admin' ORDER BY "users"."id" LIMIT 1
-[GIN] 2026/04/13 - 11:41:23 | 401 |    76.83475ms |       127.0.0.1 | POST     "/api/v1/auth/login"
-[GIN] 2026/04/13 - 11:41:28 | 204 |       9.333µs |       127.0.0.1 | OPTIONS  "/api/v1/auth/login"
-
-2026/04/13 11:41:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
-[0m[33m[1.117ms] [34;1m[rows:1][0m SELECT * FROM "roles" WHERE "roles"."id" = 1
-
-2026/04/13 11:41:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:32
-[0m[33m[3.569ms] [34;1m[rows:1][0m SELECT * FROM "users" WHERE username = 'admin' ORDER BY "users"."id" LIMIT 1
-
-2026/04/13 11:41:28 [32m/Users/anhlt/Documents/LTA/Quản lý kho/backend-go/internal/infrastructure/repository/postgres/user_repository_impl.go:71
-[0m[33m[1.599ms] [34;1m[rows:1][0m UPDATE "users" SET "last_login"=NOW(),"updated_at"='2026-04-13 11:41:28.904' WHERE id = 1
-[GIN] 2026/04/13 - 11:41:28 | 200 |   78.862625ms |       127.0.0.1 | POST     "/api/v1/auth/login"
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +5ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +17ms[39m
+[90m[4mquery:[24m[39m [94mSELECT[0m [95mversion[0m[37m([0m[37m)[0m
+[90m[4mquery:[24m[39m [94mSELECT[0m [37m*[0m [94mFROM[0m [95mcurrent_schema[0m[37m([0m[37m)[0m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmCoreModule dependencies initialized[39m[38;5;3m +22ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProductsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWarehousesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInventoryModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +13ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +22ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUsersController {/api/users}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProductsController {/api/products}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/products, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/products/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/products, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/products/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/products/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWarehousesController {/api/warehouses}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/warehouses, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/warehouses/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/warehouses, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/warehouses/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/warehouses/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInventoryController {/api/inventory}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/inventory, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/inventory/warehouse/:warehouseId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/inventory/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/inventory, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/inventory/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/inventory/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1850  - [39m05/14/2026, 6:00:08 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +1ms[39m
+Server running on http://localhost:3000
